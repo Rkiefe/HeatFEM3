@@ -9,4 +9,4 @@ $\rho C_p \frac{\partial T}{\partial t} - \nabla \cdot (k\nabla T) = \frac{d q_V
 
 With Neumann boundary conditions: 
 
-$k\nabla T \cdot \vec{n} = h(T_{ext}-T)$
+$k\nabla T \cdot \vec{n} = h\left(T_{ext}-T\right)$
