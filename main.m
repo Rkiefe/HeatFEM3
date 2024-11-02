@@ -26,7 +26,8 @@ Cp_out = 1.012;			% J/g/K wikipedia
 Ti_f = @(x,y,z) (293);	% Initial temperature function
 Text = 280;				% Outside temperature, K
 hCoef = 1e9; 			% Heat transfer coefficient, W/m^2/K
-
+						% Making this very large will force
+						% dirichlet boundary conditions on the surface
 heatSource = 0;	% volumetric heat source (W/cm^3)
 
 % Solver settings
