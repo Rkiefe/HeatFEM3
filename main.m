@@ -10,7 +10,9 @@ clear
 clc
 
 % ------------ User defined variables and constants ------------
-time = 10;	% time of experiment, s
+L = [10,10,10]; % Object dimensions
+
+Time = 5e-3;	% time of experiment, s
 
 rho_in = 7.9;			% density, g/cm^3
 rho_out = 1.225e-3; 	% g/cm^3 wikipedia
@@ -23,7 +25,7 @@ Cp_out = 1.012;			% J/g/K wikipedia
 
 Ti_f = @(x,y,z) (293);	% Initial temperature function
 Text = 280;				% Outside temperature, K
-hCoef = 1e-4; 			% Heat transfer coefficient, W/m^2/K
+hCoef = 1e9; 			% Heat transfer coefficient, W/m^2/K
 
 heatSource = 0;	% volumetric heat source (W/cm^3)
 
@@ -49,13 +51,13 @@ model = createpde;
 sketch = geometry();
 
 % >> Add Container
-container.dimensions = [4,4,1]; % cm
+container.dimensions = 5*L; % cm
 container.centered = true;
 sketch.addCuboid(model,container);
 
 % >> Add Refrigerant
 cube.centered = true;
-cube.dimensions = [1.65,1.65,0.04]; % cm
+cube.dimensions = L; % cm
 sketch.addCuboid(model,cube)
 
 % >> Import stl files
@@ -104,6 +106,7 @@ for i = 1:mesh.nv
 
 	T(i) = Ti_f(r(1),r(2),r(3));
 end
+Ti = T;
 
 % >> Stiffness matrix
 kTh = zeros(mesh.nt,1) + k_out;
@@ -132,14 +135,18 @@ r = boundaryVector(mesh,Text*g);
 
 % >> Run
 t = 0;
-while t < dt
+while t < Time
 	% Solve matrix equation
 	T_new = (M+dt*(A+R))\(dt*(b+r) + M*T);
 
 	% Update
 	t = t + dt;
 	T = T_new;
+
+	disp("At "+ 100*t/Time +" %")
 end
+
+
 
 InsideNodes = zeros(mesh.nv,1);
 for i = 1:mesh.nInside
@@ -148,10 +155,18 @@ for i = 1:mesh.nInside
 end
 
 % >> Plots
+scatter3(mesh.p(1,InsideNodes>0),mesh.p(2,InsideNodes>0),mesh.p(3,InsideNodes>0),40,Ti(InsideNodes>0),'filled')
+cbar = colorbar;
+cbar.Label.String = "T (K)";
+axis equal
+title("Initial Temperature")
+
+figure
 scatter3(mesh.p(1,InsideNodes>0),mesh.p(2,InsideNodes>0),mesh.p(3,InsideNodes>0),40,T(InsideNodes>0),'filled')
 cbar = colorbar;
 cbar.Label.String = "T (K)";
 axis equal
+title("Final Temperature")
 
 function plotFaces(mesh,options)
 	% Plot the mesh triangles with colors
@@ -264,7 +279,7 @@ function R = boundaryMatrix(mesh,h)
 		% Area of the triangle
 		areaT = areaTriangle(r(1,:),r(2,:),r(3,:));
 		
-		R(nds,nds) = R(nds,nds) + areaT*R_k;
+		R(nds,nds) = R(nds,nds) + areaT*R_k*h(mesh.surfaceT(end,s));
 	end
 end
 
