@@ -2,6 +2,7 @@
 HeatFEM is an open-source implementation of the finite element method for 3D objects. Users can import stl files to simulate complex shapes, set the initial temperature profile, thermal conductivity, time of the simulation and more, to simulate heat on complex 3D shapes.
 
 Validation of HeatFEM was performed by comparing with an analytic solution,
+
 $$
 T = T_0 e^{-t} cos(x+y+z)
 $$
