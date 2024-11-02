@@ -1,6 +1,7 @@
 # HeatFEM
 This is a finite element implementation of the 3D heat equation, with Neumann boundary conditions.
-![example](https://github.com/user-attachments/assets/66892836-38cd-4071-a49e-d64b8f8df0c0)
+![analytic](https://github.com/user-attachments/assets/824870fa-2b5a-4a0b-a339-ce0ca52be7b5)
+![FEM](https://github.com/user-attachments/assets/ea17495c-0b04-423d-8281-8de3214d2ae9)
 
 ## Model
 The heat equation is as follows,
