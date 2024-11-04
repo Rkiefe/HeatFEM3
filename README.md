@@ -4,13 +4,13 @@ HeatFEM is an open-source implementation of the finite element method for 3D obj
 Validation of HeatFEM was performed by comparing with an analytic solution,
 
 $$
-T = T_0 e^{-t} cos(x+y+z)
+T = T_0 e^{-t} cos(\beta (x+y+z))
 $$
 
 with boundary conditions:
 
 $$
--k\nabla T \cdot \vec{n} = kT_0 e^{-t}sin(x+y+z) [1,1,1]\cdot\vec{n}
+-k\nabla T \cdot \vec{n} = k \beta T_0 e^{-t}sin(\beta (x+y+z)) [1,1,1]\cdot\vec{n}
 $$
 
 Results (Time = 0.01s and Time step = 0.001s):
