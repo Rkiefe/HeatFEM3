@@ -15,12 +15,12 @@ L = [10,10,10]; % Object dimensions
 Time = 5e-3;	% time of experiment, s
 
 rho_in = 7.9;			% density, g/cm^3
-rho_out = 1.225e-3; 	% g/cm^3 wikipedia
+rho_out = 1.225e-3; 	% density of air, g/cm^3 (wikipedia)
 
-k_in = 8.8; 			% conductivity, W/m/K (https://www.matweb.com/search/datasheet_print.aspx?matguid=750a3dd8d69b44b79468fbaf72a2beef)
-k_out = 2.262e-2;		% wikipedia
+k_in = 8.8; 			% thermal conductivity of Gd, W/m/K (https://www.matweb.com/search/datasheet_print.aspx?matguid=750a3dd8d69b44b79468fbaf72a2beef)
+k_out = 2.262e-2;		% thermal conductivity of air (wikipedia)
 
-Cp_in = 0.3; 			% J/g/K
+Cp_in = 0.3; 			% specific heat J/g/K
 Cp_out = 1.012;			% J/g/K wikipedia
 
 Ti_f = @(x,y,z) (293);	% Initial temperature function
@@ -34,7 +34,7 @@ heatSource = 0;	% volumetric heat source (W/cm^3)
 dt = 1e-3; 	% time step, s
 
 % Mesh parameters
-Hmax = 0; % 0 -> let matlab choose
+Hmax = 0; % 0 -> let matlab try to chose the best values
 Hmin = 0; % ...
 
 % Model view settings
