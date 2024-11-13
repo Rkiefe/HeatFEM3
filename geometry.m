@@ -148,6 +148,33 @@ classdef geometry
 				g2 = translate(g2,-center);
 			end
 
+			% Add a container
+			if isempty(model.Geometry)
+			
+				% Make a container for the stl
+				X = 0.5*10*(max(g2.Vertices(:,1))-min(g2.Vertices(:,1)));
+				Y = 0.5*10*(max(g2.Vertices(:,2))-min(g2.Vertices(:,2)));
+				Z = 0.5*10*(max(g2.Vertices(:,3))-min(g2.Vertices(:,3)));
+
+				gContainer = multicuboid(X,Y,Z);
+				Container_center = mean(gContainer.Vertices);
+				gContainer = translate(gContainer,-Container_center);
+
+				% Add the container
+				model.Geometry = gContainer;
+
+				% Add the stl
+				try
+					addCell(model.Geometry,g2);
+					message = [message,'Created a container and imported the model'];
+				catch exception
+					message = 'Unable to add cell. ';
+					message = [message,exception.message];
+				end
+				
+				return
+			end
+
 			try
 				if isempty(model.Geometry)
 					model.Geometry = g2;
@@ -190,7 +217,7 @@ classdef geometry
 			commandCell = eval(['{', command, '}']);
 
 			
-			pdeplot3D(model.Mesh,commandCell{:})
+			pdeplot3D(model.Mesh,commandCell{:}); fig = gca;
         end
 
         function plotModel(model,settings)
